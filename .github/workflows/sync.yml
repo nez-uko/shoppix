@@ -20,9 +20,10 @@ jobs:
           git config user.name "sync-bot"
           git config user.email "sync-bot@users.noreply.github.com"
           git fetch https://github.com/Hussein-Hashiem/Shoppix.git front-develop
+          D=$(git log -1 --format=%cI FETCH_HEAD)
           git checkout -B deploy FETCH_HEAD
           git rm -r --ignore-unmatch --quiet .github/workflows
+          echo '{"rewrites":[{"source":"/(.*)","destination":"/index.html"}]}' > frontend/vercel.json
           git add -A
-          git commit -m "Deploy patches" || true
-          git commit --allow-empty -m "trigger deploy $(date +%s)"
+          GIT_AUTHOR_DATE="$D" GIT_COMMITTER_DATE="$D" git commit -m "Deploy patches" || true
           git push origin deploy --force
