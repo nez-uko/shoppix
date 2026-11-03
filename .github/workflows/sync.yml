@@ -1,0 +1,21 @@
+name: Sync from upstream
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Pull front-develop from leader's repo
+        run: |
+          git fetch https://github.com/Hussein-Hashiem/Shoppix.git front-develop
+          git push origin FETCH_HEAD:refs/heads/deploy --force
