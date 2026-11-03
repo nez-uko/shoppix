@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Pull front-develop from leader's repo
-     run: |
+        run: |
           git config user.name "sync-bot"
           git config user.email "sync-bot@users.noreply.github.com"
           git fetch https://github.com/Hussein-Hashiem/Shoppix.git front-develop
