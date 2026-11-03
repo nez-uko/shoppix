@@ -16,11 +16,13 @@ jobs:
         with:
           fetch-depth: 0
       - name: Pull front-develop from leader's repo
-        run: |
+     run: |
           git config user.name "sync-bot"
           git config user.email "sync-bot@users.noreply.github.com"
           git fetch https://github.com/Hussein-Hashiem/Shoppix.git front-develop
           git checkout -B deploy FETCH_HEAD
           git rm -r --ignore-unmatch --quiet .github/workflows
-          git commit -m "Remove upstream workflows" || true
+          git add -A
+          git commit -m "Deploy patches" || true
+          git commit --allow-empty -m "trigger deploy $(date +%s)"
           git push origin deploy --force
