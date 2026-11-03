@@ -17,5 +17,10 @@ jobs:
           fetch-depth: 0
       - name: Pull front-develop from leader's repo
         run: |
+          git config user.name "sync-bot"
+          git config user.email "sync-bot@users.noreply.github.com"
           git fetch https://github.com/Hussein-Hashiem/Shoppix.git front-develop
-          git push origin FETCH_HEAD:refs/heads/deploy --force
+          git checkout -B deploy FETCH_HEAD
+          git rm -r --ignore-unmatch --quiet .github/workflows
+          git commit -m "Remove upstream workflows" || true
+          git push origin deploy --force
